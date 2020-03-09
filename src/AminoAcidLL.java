@@ -1,11 +1,14 @@
 class AminoAcidLL{
-  char aminoAcid;
-  String[] codons;
-  int[] counts;
-  AminoAcidLL next;
+  private char aminoAcid;
+  private String[] codons;
+  private int[] counts;
+  private AminoAcidLL next;
 
-  AminoAcidLL(){
-
+  public AminoAcidLL(){
+    aminoAcid = ' ';
+    codons = new String[1];
+    counts = new int[1];
+    next = null;
   }
 
 
@@ -14,7 +17,14 @@ class AminoAcidLL{
    * pair and increments the codon counter for that codon.
    * NOTE: Does not check for repeats!! */
   AminoAcidLL(String inCodon){
-  
+    aminoAcid = AminoAcidResources.getAminoAcidFromCodon(inCodon);
+    codons = AminoAcidResources.getCodonListForAminoAcid(aminoAcid);
+    counts = new int[codons.length];
+    for(int i = 0; i < codons.length; i++){
+      if(codons[i].equals(inCodon)){
+        counts[i]++;
+      }
+    }
   }
 
   /********************************************************************************************/
@@ -91,6 +101,7 @@ class AminoAcidLL{
   /********************************************************************************************/
   /* Static method for generating a linked list from an RNA sequence */
   public static AminoAcidLL createFromRNASequence(String inSequence){
+    AminoAcidLL head;
     return null;
   }
 
