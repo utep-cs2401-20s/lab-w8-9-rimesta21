@@ -61,17 +61,16 @@ class AminoAcidLL{
       iterator = iterator.next;
     }
 
-    if(sub.length() > 0 && !repeats){
-      if(this.next == null){
+    if(sub.length() > 0 && !repeats) {
+      if (this.next == null) {
         if (this.aminoAcid == AminoAcidResources.getAminoAcidFromCodon(sub)) {
           for (int k = 0; k < this.codons.length; k++) {
-            //System.out.println(inCodon + " " + this.codons[k]);
             if (this.codons[k].equals(sub)) {
-              System.out.println(inCodon);
+              System.out.println(sub);
               this.counts[k]++;
+              this.addCodon(str);
             }
           }
-          this.addCodon(str);
         } else {
           AminoAcidLL n = new AminoAcidLL(sub);
           this.next = n;
@@ -83,14 +82,15 @@ class AminoAcidLL{
         this.addCodon(str);
       }
     }
-
   }
 
 
   /********************************************************************************************/
   /* Shortcut to find the total number of instances of this amino acid */
   private int totalCount(){
-    return 0;
+    int count = 0;
+    count++;
+    return count;
   }
 
   /********************************************************************************************/
@@ -161,6 +161,10 @@ class AminoAcidLL{
   /* sorts a list by amino acid character*/
   public static AminoAcidLL sort(AminoAcidLL inList){
     return null;
+  }
+
+  public void incrCodon(String codon) {
+
   }
 
   public void print(){

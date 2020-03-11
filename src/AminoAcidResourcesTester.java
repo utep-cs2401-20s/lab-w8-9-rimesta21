@@ -59,12 +59,5 @@ class AminoAcidResourcesTester{
     }
   }
 
-  @Test
-  public void Monday() {
-    String str = "GCUGCUACGGAGCUUCGGAGCUAGGCCGCUGCUACGGAGCUUCGGAGCUAGGCC";
-    AminoAcidLL test = AminoAcidLL.createFromRNASequence(str);
-    test.print();
-
-  }
 
 }
