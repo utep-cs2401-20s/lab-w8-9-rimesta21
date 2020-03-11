@@ -19,10 +19,10 @@ class AminoAcidLL{
   AminoAcidLL(String inCodon){
     aminoAcid = AminoAcidResources.getAminoAcidFromCodon(inCodon);
     codons = AminoAcidResources.getCodonListForAminoAcid(aminoAcid);
-    counts = new int[codons.length];
-    for(int i = 0; i < codons.length; i++){
-      if(codons[i].equals(inCodon)){
-        counts[i]++;
+    counts = new int[this.codons.length];
+    for(int i = 0; i < this.codons.length; i++){
+      if(this.codons[i].equals(inCodon)){
+        this.counts[i]++;
       }
     }
   }
@@ -34,7 +34,56 @@ class AminoAcidLL{
    * If there is no next node, add a new node to the list that would contain the codon. 
    */
   private void addCodon(String inCodon){
-  
+    int i = 0;
+    String sub = "";
+    String str = "";
+    boolean repeats = false;
+
+    if(i + 3 <= inCodon.length()){
+      sub = inCodon.substring(i, i + 3);
+      str = inCodon.substring(i + 3);
+      System.out.println(sub);
+    }
+
+    AminoAcidLL iterator = this;
+    while(iterator.next != null ) {
+      if (iterator.aminoAcid == AminoAcidResources.getAminoAcidFromCodon(sub)) {
+        repeats = true;
+        for (int k = 0; k < iterator.codons.length; k++) {
+          if (iterator.codons[k].equals(sub)) {
+            System.out.println(sub);
+            iterator.counts[k]++;
+            this.addCodon(str);
+            break;
+          }
+        }
+      }
+      iterator = iterator.next;
+    }
+
+    if(sub.length() > 0 && !repeats){
+      if(this.next == null){
+        if (this.aminoAcid == AminoAcidResources.getAminoAcidFromCodon(sub)) {
+          for (int k = 0; k < this.codons.length; k++) {
+            //System.out.println(inCodon + " " + this.codons[k]);
+            if (this.codons[k].equals(sub)) {
+              System.out.println(inCodon);
+              this.counts[k]++;
+            }
+          }
+          this.addCodon(str);
+        } else {
+          AminoAcidLL n = new AminoAcidLL(sub);
+          this.next = n;
+          this.addCodon(str);
+        }
+      } else {
+        AminoAcidLL n = new AminoAcidLL(sub);
+        iterator.next = n;
+        this.addCodon(str);
+      }
+    }
+
   }
 
 
@@ -101,14 +150,27 @@ class AminoAcidLL{
   /********************************************************************************************/
   /* Static method for generating a linked list from an RNA sequence */
   public static AminoAcidLL createFromRNASequence(String inSequence){
-    AminoAcidLL head;
-    return null;
+    String send = "";
+    AminoAcidLL head = new AminoAcidLL(inSequence.substring(0,3));
+    send = inSequence.substring(3);
+    head.addCodon(send);
+    return head;
   }
-
 
   /********************************************************************************************/
   /* sorts a list by amino acid character*/
   public static AminoAcidLL sort(AminoAcidLL inList){
     return null;
+  }
+
+  public void print(){
+    AminoAcidLL iterator = this;
+    for(int i = 0; i < this.counts.length; i++){
+      System.out.print(this.counts[i] + " ");
+    }
+    while (iterator.next != null){
+      System.out.println(iterator.aminoAcid + " ");
+      iterator = iterator.next;
+    }
   }
 }
